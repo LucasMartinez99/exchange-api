@@ -1,0 +1,156 @@
+openapi: 3.0.3
+info:
+  title: Exchange Rate API
+  version: 1.0.0
+  description: API para conversión de moneda e historial
+
+servers:
+  - url: http://localhost:8081
+
+tags:
+  - name: Exchange Rate
+
+paths:
+  /api/v1/exchange/convert:
+    post:
+      tags:
+        - Exchange Rate
+      summary: Convierte una cantidad de dinero entre monedas
+      operationId: convertCurrency
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConvertRequest'
+      responses:
+        '200':
+          description: Conversión exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConvertResponse'
+
+  /api/v1/exchange/history:
+    get:
+      tags:
+        - Exchange Rate
+      summary: Lista historial por rango de fechas
+      operationId: getConversionHistory
+      parameters:
+        - name: startDate
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
+        - name: endDate
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: Historial obtenido correctamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ConversionHistoryResponse'
+
+  /api/v1/exchange/summary:
+    get:
+      tags:
+        - Exchange Rate
+      summary: Suma la cantidad de dinero convertido por tipo de moneda
+      operationId: getSummaryByCurrency
+      parameters:
+        - name: currency
+          in: query
+          required: true
+          schema:
+            type: string
+            example: PEN
+      responses:
+        '200':
+          description: Resumen obtenido correctamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SummaryResponse'
+
+components:
+  schemas:
+    ConvertRequest:
+      type: object
+      required:
+        - from
+        - to
+        - amount
+      properties:
+        from:
+          type: string
+          example: USD
+        to:
+          type: string
+          example: PEN
+        amount:
+          type: number
+          format: double
+          example: 10
+
+    ConvertResponse:
+      type: object
+      properties:
+        from:
+          type: string
+        to:
+          type: string
+        amount:
+          type: number
+          format: double
+        exchangeRate:
+          type: number
+          format: double
+        convertedAmount:
+          type: number
+          format: double
+        date:
+          type: string
+          format: date
+        success:
+          type: boolean
+
+    ConversionHistoryResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        from:
+          type: string
+        to:
+          type: string
+        amount:
+          type: number
+          format: double
+        exchangeRate:
+          type: number
+          format: double
+        convertedAmount:
+          type: number
+          format: double
+        conversionDate:
+          type: string
+          format: date
+
+    SummaryResponse:
+      type: object
+      properties:
+        currency:
+          type: string
+        totalConvertedAmount:
+          type: number
+          format: double

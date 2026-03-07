@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:16
+    container_name: msla_db
+    environment:
+      POSTGRES_DB: practica2
+      POSTGRES_USER: lucas
+      POSTGRES_PASSWORD: 11335577990
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  app:
+    build: .
+    container_name: msla_app
+    depends_on:
+      - db
+    ports:
+      - "8081:8081"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/practica2
+      SPRING_DATASOURCE_USERNAME: lucas
+      SPRING_DATASOURCE_PASSWORD: 11335577990
+      EXCHANGE_API_URL: https://api.apilayer.com/exchangerates_data
+      EXCHANGE_API_KEY: NjsnOKFGocWwhMjsJyz9bHcHty8jy2Fh
+
+volumes:
+  postgres_data:
