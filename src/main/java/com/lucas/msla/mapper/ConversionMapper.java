@@ -5,17 +5,20 @@ import com.lucas.msla.dto.ConvertResponseDTO;
 import com.lucas.msla.entity.ConversionHistory;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
+
 @Component
 public class ConversionMapper {
 
-    public ConvertResponseDTO toConvertResponseDTO(ConversionHistory entity) {
+    public ConvertResponseDTO toConvertResponseDTO(ConversionHistory entity, LocalDate exchangeRateDate) {
         return ConvertResponseDTO.builder()
                 .from(entity.getSourceCurrency())
                 .to(entity.getTargetCurrency())
                 .amount(entity.getAmount())
                 .exchangeRate(entity.getExchangeRate())
                 .convertedAmount(entity.getConvertedAmount())
-                .date(entity.getConversionDate())
+                .date(exchangeRateDate)
+                .timestamp(entity.getConversionDate())
                 .success(entity.getSuccess())
                 .build();
     }

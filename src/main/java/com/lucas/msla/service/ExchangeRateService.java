@@ -5,16 +5,20 @@ import com.lucas.msla.dto.ConvertRequestDTO;
 import com.lucas.msla.dto.ConvertResponseDTO;
 import com.lucas.msla.dto.SummaryResponseDTO;
 import com.lucas.msla.entity.ConversionHistory;
+import com.lucas.msla.exception.ExternalApiException;
 import com.lucas.msla.feign.ExchangeRateClient;
+import com.lucas.msla.feign.dto.ExchangeRateApiResponse;
 import com.lucas.msla.mapper.ConversionMapper;
 import com.lucas.msla.repository.ConversionHistoryRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class ExchangeRateService {
@@ -22,53 +26,51 @@ public class ExchangeRateService {
     private final ExchangeRateClient exchangeRateClient;
     private final ConversionHistoryRepository conversionHistoryRepository;
     private final ConversionMapper conversionMapper;
+    private final String apiKey;
 
-    @Value("${exchange.api.key}")
-    private String apiKey;
-
-    public ExchangeRateService(ExchangeRateClient exchangeRateClient,
-                               ConversionHistoryRepository conversionHistoryRepository,
-                               ConversionMapper conversionMapper) {
+    public ExchangeRateService(
+            ExchangeRateClient exchangeRateClient,
+            ConversionHistoryRepository conversionHistoryRepository,
+            ConversionMapper conversionMapper,
+            @Value("${exchange.api.key}") String apiKey) {
         this.exchangeRateClient = exchangeRateClient;
         this.conversionHistoryRepository = conversionHistoryRepository;
         this.conversionMapper = conversionMapper;
+        this.apiKey = apiKey;
     }
 
+    @Transactional
     public ConvertResponseDTO convertCurrency(ConvertRequestDTO request) {
-        Map<String, Object> response = exchangeRateClient.convertCurrency(
+        ExchangeRateApiResponse response = exchangeRateClient.convertCurrency(
                 request.getTo(),
                 request.getFrom(),
                 request.getAmount(),
                 apiKey
         );
 
-        Boolean success = (Boolean) response.get("success");
-        if (Boolean.FALSE.equals(success)) {
-            throw new RuntimeException("La conversión falló en el servicio externo");
+        if (!Boolean.TRUE.equals(response.success())) {
+            throw new ExternalApiException("Currency conversion failed in the external service");
         }
-
-        Map<String, Object> info = (Map<String, Object>) response.get("info");
-        BigDecimal rate = new BigDecimal(info.get("rate").toString());
-        BigDecimal result = new BigDecimal(response.get("result").toString());
-        LocalDate date = LocalDate.parse(response.get("date").toString());
 
         ConversionHistory history = ConversionHistory.builder()
                 .sourceCurrency(request.getFrom())
                 .targetCurrency(request.getTo())
                 .amount(request.getAmount())
-                .exchangeRate(rate)
-                .convertedAmount(result)
-                .conversionDate(date)
+                .exchangeRate(response.info().rate())
+                .convertedAmount(response.result())
+                .conversionDate(LocalDateTime.now())
                 .success(true)
                 .build();
 
         ConversionHistory saved = conversionHistoryRepository.save(history);
+        LocalDate exchangeRateDate = LocalDate.parse(response.date());
 
-        return conversionMapper.toConvertResponseDTO(saved);
+        return conversionMapper.toConvertResponseDTO(saved, exchangeRateDate);
     }
 
     public List<ConversionHistoryResponseDTO> getHistory(LocalDate startDate, LocalDate endDate) {
-        return conversionHistoryRepository.findByConversionDateBetween(startDate, endDate)
+        return conversionHistoryRepository
+                .findByConversionDateBetween(startDate.atStartOfDay(), endDate.atTime(LocalTime.MAX))
                 .stream()
                 .map(conversionMapper::toHistoryResponseDTO)
                 .toList();

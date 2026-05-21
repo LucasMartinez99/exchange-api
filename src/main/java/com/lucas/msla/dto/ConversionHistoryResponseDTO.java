@@ -3,7 +3,7 @@ package com.lucas.msla.dto;
 import lombok.*;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -18,5 +18,5 @@ public class ConversionHistoryResponseDTO {
     private BigDecimal amount;
     private BigDecimal exchangeRate;
     private BigDecimal convertedAmount;
-    private LocalDate conversionDate;
+    private LocalDateTime conversionDate;
 }

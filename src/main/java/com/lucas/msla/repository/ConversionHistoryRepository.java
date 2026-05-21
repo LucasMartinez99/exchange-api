@@ -6,12 +6,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface ConversionHistoryRepository extends JpaRepository<ConversionHistory, Long> {
 
-    List<ConversionHistory> findByConversionDateBetween(LocalDate startDate, LocalDate endDate);
+    List<ConversionHistory> findByConversionDateBetween(LocalDateTime start, LocalDateTime end);
 
     @Query("""
             SELECT COALESCE(SUM(c.convertedAmount), 0)

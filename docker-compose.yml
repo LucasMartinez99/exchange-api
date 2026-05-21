@@ -1,31 +1,34 @@
-version: '3.8'
-
 services:
+
   db:
-    image: postgres:16
+    image: postgres:16-alpine
     container_name: msla_db
+    restart: unless-stopped
+    env_file: .env
     environment:
-      POSTGRES_DB: practica2
-      POSTGRES_USER: lucas
-      POSTGRES_PASSWORD: 11335577990
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     ports:
       - "5433:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   app:
     build: .
     container_name: msla_app
-    depends_on:
-      - db
+    restart: unless-stopped
+    env_file: .env
     ports:
       - "8081:8081"
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/practica2
-      SPRING_DATASOURCE_USERNAME: lucas
-      SPRING_DATASOURCE_PASSWORD: 11335577990
-      EXCHANGE_API_URL: https://api.apilayer.com/exchangerates_data
-      EXCHANGE_API_KEY: NjsnOKFGocWwhMjsJyz9bHcHty8jy2Fh
+    depends_on:
+      db:
+        condition: service_healthy
 
 volumes:
   postgres_data:

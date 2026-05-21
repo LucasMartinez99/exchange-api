@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "conversion_history")
@@ -19,10 +19,10 @@ public class ConversionHistory {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 10)
     private String sourceCurrency;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 10)
     private String targetCurrency;
 
     @Column(nullable = false, precision = 19, scale = 4)
@@ -35,7 +35,7 @@ public class ConversionHistory {
     private BigDecimal convertedAmount;
 
     @Column(nullable = false)
-    private LocalDate conversionDate;
+    private LocalDateTime conversionDate;
 
     @Column(nullable = false)
     private Boolean success;
