@@ -22,7 +22,7 @@ Consumes a live exchange rate API, persists conversion history to PostgreSQL, an
 The project follows a classic **layered architecture** — each layer has a single responsibility and depends only on the layer below it.
 
 ```
-src/main/java/com/lucas/msla/
+src/main/java/com/lucas/exchangeapi/
 │
 ├── controller/         # REST endpoints — receives requests, delegates to the service
 ├── service/            # Business logic — orchestrates Feign client + repository
@@ -111,8 +111,8 @@ Returns the total amount converted into the given currency across all recorded c
 
 ```bash
 # 1. Clone the repo
-git clone https://github.com/LucasMartinez99/msla.git
-cd msla
+git clone https://github.com/LucasMartinez99/exchange-api.git
+cd exchange-api
 
 # 2. Set up environment variables
 cp .env.example .env
