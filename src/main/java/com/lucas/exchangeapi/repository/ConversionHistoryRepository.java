@@ -1,6 +1,6 @@
-package com.lucas.msla.repository;
+package com.lucas.exchangeapi.repository;
 
-import com.lucas.msla.entity.ConversionHistory;
+import com.lucas.exchangeapi.entity.ConversionHistory;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

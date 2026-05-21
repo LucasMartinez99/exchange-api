@@ -1,8 +1,8 @@
-package com.lucas.msla.mapper;
+package com.lucas.exchangeapi.mapper;
 
-import com.lucas.msla.dto.ConversionHistoryResponseDTO;
-import com.lucas.msla.dto.ConvertResponseDTO;
-import com.lucas.msla.entity.ConversionHistory;
+import com.lucas.exchangeapi.dto.ConversionHistoryResponseDTO;
+import com.lucas.exchangeapi.dto.ConvertResponseDTO;
+import com.lucas.exchangeapi.entity.ConversionHistory;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;

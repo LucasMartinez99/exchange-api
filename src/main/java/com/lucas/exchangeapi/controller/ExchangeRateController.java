@@ -1,10 +1,10 @@
-package com.lucas.msla.controller;
+package com.lucas.exchangeapi.controller;
 
-import com.lucas.msla.dto.ConversionHistoryResponseDTO;
-import com.lucas.msla.dto.ConvertRequestDTO;
-import com.lucas.msla.dto.ConvertResponseDTO;
-import com.lucas.msla.dto.SummaryResponseDTO;
-import com.lucas.msla.service.ExchangeRateService;
+import com.lucas.exchangeapi.dto.ConversionHistoryResponseDTO;
+import com.lucas.exchangeapi.dto.ConvertRequestDTO;
+import com.lucas.exchangeapi.dto.ConvertResponseDTO;
+import com.lucas.exchangeapi.dto.SummaryResponseDTO;
+import com.lucas.exchangeapi.service.ExchangeRateService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

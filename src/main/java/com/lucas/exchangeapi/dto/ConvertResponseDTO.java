@@ -1,4 +1,4 @@
-package com.lucas.msla.dto;
+package com.lucas.exchangeapi.dto;
 
 import lombok.*;
 

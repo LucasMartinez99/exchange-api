@@ -1,4 +1,4 @@
-package com.lucas.msla.exception;
+package com.lucas.exchangeapi.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

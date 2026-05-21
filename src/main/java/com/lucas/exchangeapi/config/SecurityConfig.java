@@ -1,4 +1,4 @@
-package com.lucas.msla.config;
+package com.lucas.exchangeapi.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

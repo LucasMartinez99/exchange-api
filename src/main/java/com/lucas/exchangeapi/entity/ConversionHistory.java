@@ -1,4 +1,4 @@
-package com.lucas.msla.entity;
+package com.lucas.exchangeapi.entity;
 
 import jakarta.persistence.*;
 import lombok.*;

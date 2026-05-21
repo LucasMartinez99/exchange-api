@@ -1,6 +1,6 @@
-package com.lucas.msla.feign;
+package com.lucas.exchangeapi.feign;
 
-import com.lucas.msla.feign.dto.ExchangeRateApiResponse;
+import com.lucas.exchangeapi.feign.dto.ExchangeRateApiResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;

@@ -1,4 +1,4 @@
-package com.lucas.msla.exception;
+package com.lucas.exchangeapi.exception;
 
 public class ResourceNotFoundException extends RuntimeException {
 

@@ -1,4 +1,4 @@
-package com.lucas.msla.feign.dto;
+package com.lucas.exchangeapi.feign.dto;
 
 import java.math.BigDecimal;
 

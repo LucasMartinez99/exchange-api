@@ -13,10 +13,10 @@
     </parent>
 
     <groupId>com.lucas</groupId>
-    <artifactId>msla</artifactId>
+    <artifactId>exchange-api</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>msla</name>
-    <description>Technical test MSLA</description>
+    <name>exchange-api</name>
+    <description>Currency Converter API</description>
 
     <properties>
         <java.version>17</java.version>

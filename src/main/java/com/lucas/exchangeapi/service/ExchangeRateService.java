@@ -1,15 +1,15 @@
-package com.lucas.msla.service;
+package com.lucas.exchangeapi.service;
 
-import com.lucas.msla.dto.ConversionHistoryResponseDTO;
-import com.lucas.msla.dto.ConvertRequestDTO;
-import com.lucas.msla.dto.ConvertResponseDTO;
-import com.lucas.msla.dto.SummaryResponseDTO;
-import com.lucas.msla.entity.ConversionHistory;
-import com.lucas.msla.exception.ExternalApiException;
-import com.lucas.msla.feign.ExchangeRateClient;
-import com.lucas.msla.feign.dto.ExchangeRateApiResponse;
-import com.lucas.msla.mapper.ConversionMapper;
-import com.lucas.msla.repository.ConversionHistoryRepository;
+import com.lucas.exchangeapi.dto.ConversionHistoryResponseDTO;
+import com.lucas.exchangeapi.dto.ConvertRequestDTO;
+import com.lucas.exchangeapi.dto.ConvertResponseDTO;
+import com.lucas.exchangeapi.dto.SummaryResponseDTO;
+import com.lucas.exchangeapi.entity.ConversionHistory;
+import com.lucas.exchangeapi.exception.ExternalApiException;
+import com.lucas.exchangeapi.feign.ExchangeRateClient;
+import com.lucas.exchangeapi.feign.dto.ExchangeRateApiResponse;
+import com.lucas.exchangeapi.mapper.ConversionMapper;
+import com.lucas.exchangeapi.repository.ConversionHistoryRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
